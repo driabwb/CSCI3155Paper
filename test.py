@@ -22,8 +22,6 @@ def make_counter_for():
         count += 1
     return count
 
-
-
 print("{}".format(make_counter_nonlocal()))
 #print("{}".format(make_counter()))
 print("{}".format(make_counter_for()))
