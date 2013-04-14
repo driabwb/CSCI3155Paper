@@ -1,13 +1,13 @@
 # CSCI 3155 Rough Draft
 
-## Introduction
+### Introduction
 
 This paper discusses Python Enhancement Proposel (PEP) 3104: Access to names in outer scopes.
 
-## What is the PEP?
+### What is the PEP?
 
-## Why implement this PEP?
+### Why implement this PEP?
 
-## Community reaction
+### Community reaction
 
-## Conclusion
+### Conclusion
