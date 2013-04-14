@@ -8,7 +8,7 @@ This paper discusses Python Enhancement Proposel (PEP) 3104: Access to names in 
 
 ### Why implement this PEP?
 
-In Python, one can declare functions within functions, which gives the appearance of a nested lexical scope. However, before this PEP one could not actually modify variables not in the immediate local scope, which defied the inuition of many programmers who expected it. For instance, in this code, taken from the PEP proposal site: [1]:
+In Python, one can declare functions within functions, which gives the appearance of a nested lexical scope. However, before this PEP one could not actually modify variables not in the immediate local scope, which defied the inuition of many programmers who expected it. For instance, in this code, taken from the PEP proposal site: [1]
 
 ~~~~~
 def make_scoreboard(frame, score=0):
