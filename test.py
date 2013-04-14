@@ -18,6 +18,13 @@ def make_counter():
         return count
     return counter2()
 
+# does work, we can access a variable outside the scope, just not modify it
+def make_counter_print():
+    count = 0
+    def counter2():
+        print(count)
+    return counter2()
+
 # works in python 2 or 3, for loops could already access
 # variables outside of their scope
 def make_counter_for():
