@@ -25,6 +25,7 @@ language proposals
 - http://mail.python.org/pipermail/python-dev/2006-February/061568.html
 - other threads in the python mailing list
 - http://stackoverflow.com/questions/1261875/python-nonlocal-statement
+- http://c2.com/cgi/wiki?DynamicScoping
 
 ### Code Example (from stackoverflow, link above):
 
