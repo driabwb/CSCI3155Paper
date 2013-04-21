@@ -2,13 +2,13 @@
 
 ### Introduction
 
-This paper discusses Python Enhancement Proposel (PEP) 3104: Access to names in outer scopes.
+This paper discusses Python Enhancement Proposal (PEP) 3104: Access to names in outer scopes.
 
 ### What is the PEP?
 
 ### Why implement this PEP?
 
-In Python, one can declare functions within functions, which gives the appearance of a nested lexical scope. However, before this PEP one could not actually modify variables not in the immediate local scope, which defied the inuition of many programmers who expected it. For instance, in this code, taken from the PEP proposal site: [1]
+In Python, one can declare functions within functions, which gives the appearance of a nested lexical scope. However, before this PEP one could not actually modify variables not in the immediate local scope, which defied the intuition of many programmers who expected it. For instance, in this code, taken from the PEP proposal site: [1]
 
 ~~~~~
 def make_scoreboard(frame, score=0):
@@ -27,7 +27,7 @@ Here, a programmer used to nested lexical scoping would assume the ability to mo
 
 ### Community reaction
 
-Since PEP 227, there has been talk in the community of addressing the issue of reassigning free variables within a nested scope. As Alman T. Goo writes in the Python-Dev mailing list:
+Since PEP 227, there has been talk in the community of addressing the issue of reassigning free variables within a nested scope. As Almann T. Goo writes in the Python-Dev mailing list:
 
 ~~~~~
 "My rationale is that with the advent of PEP 227 <http://www.python.org/peps/pep-0227.html>, Python has proper  
@@ -37,7 +37,7 @@ wants to make an assignment to a free variable within a nested function." [2]
 
 In general, there was agreement that this quirk of the language was problematic, and many replies echoed this concern: "The lack of support for rebinding names in enclosing scopes is certainly a wart." [3]
 
-Almann suggests the keyword "use" in this message quoted above, and in the course of the converstaion more are suggested as well, including "outer", "extern", "common", and many others.
+Almann suggests the keyword "use" in this message quoted above, and in the course of the conversation more are suggested as well, including "outer", "extern", "common", and many others.
 
 In the discussion thread, there were fewer arguments against the new proposal than for it. One lines of the arguments against it seemed to be against nested scoping in general:
 
@@ -48,7 +48,7 @@ name resolution will only encourage users to write closures which could have wri
 at all..." [4]
 ~~~~~
 
-Other objections cite that there are not enough non-trivial use cases to warrent a new keyword, esspecailly considering there are already ways to work around the issue by using classes to declare a kind of namespace [4]. But despite the resistence to this proposal, at the end of the day it seemed to be a need that a critical mass of people could not let go of, as summerized by Guido in this quote:
+Other objections cite that there are not enough non-trivial use cases to warrent a new keyword, especially considering there are already ways to work around the issue by using classes to declare a kind of namespace [4]. But despite the resistance to this proposal, at the end of the day it seemed to be a need that a critical mass of people could not let go of, as summarized by Guido in this quote:
 
 ~~~~~
 "I think the needs are actually pretty simple. Python currently doesn't allow assignment to variables in an outer  
