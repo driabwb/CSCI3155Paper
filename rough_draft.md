@@ -1,14 +1,10 @@
-# CSCI 3155 Rough Draft
+# CSCI3155 Paper: PEP 3104 (Rough Draft)
 
-### Introduction
+## David Baird, Aaron Davis, Ryan Riley
 
-This paper discusses Python Enhancement Proposal (PEP) 3104: Access to names in outer scopes.
+### What and Why
 
-### What is the PEP?
-
-### Why implement this PEP?
-
-In Python, one can declare functions within functions, which gives the appearance of a nested lexical scope. However, before this PEP one could not actually modify variables not in the immediate local scope, which defied the intuition of many programmers who expected it. For instance, in this code, taken from the PEP proposal site: [1]
+This paper discusses Python Enhancement Proposal (PEP) 3104: Access to names in outer scopes. In Python, one can declare functions within functions, which gives the appearance of a nested lexical scope. However, before this PEP one could not actually modify variables not in the immediate local scope, which defied the intuition of many programmers who expected it. For instance, in this code, taken from the PEP proposal site: [1]
 
 ~~~~~
 def make_scoreboard(frame, score=0):
@@ -24,6 +20,10 @@ def make_scoreboard(frame, score=0):
 ~~~~~
 
 Here, a programmer used to nested lexical scoping would assume the ability to modify the score variable in the nested function. However, Python did not support this functionality until this PEP was implemented in Python 3.
+
+This PEP proposes a new keyword, 'nonlocal', to solve the scoping issue. The keyword acts as a override for searching the local scope only, saying that if the variable is not declared in this scope, look to the next outer scopes. Several other approaches to repair the problem, as well as other keywords, were purposed. The override solution was selected because it provided a clearer meaning and did not have the potential to break existing code. Among the other proposed keywords were global and outer. These two were less favorable because they either already had another meaning, as in the case of global, or were a commonly used variable name, as with outer. Nonlocal, while a little cumbersome, provided a good solution because it is very clear; it says exactly what it is doing. Thus, nonlocal was chosen as the proposed solution [1].
+
+There were two main categories of solutions to this problem, those that suggested new syntax where a name is bound (outer scope), and those that suggested new syntax where the name is used (inner scope) [1]. This PEP eventually went the way of the new syntax in the inner scope, primarily because the first method would cause function definitions to become context sensitive depending on what names are bound in an outer scope.
 
 ### Community reaction
 
@@ -59,6 +59,8 @@ Other objections cite that there are not enough non-trivial use cases to warrent
 - [ ] Insert here maybe some rationale about why the current solution is best?
 
 ### Conclusion
+
+PEP 3104 was indeed accepted into the Python language for all versions of Python 3. Why did this PEP succeed where others fail? Based on the community feedback, it appears that there was a discrepancy between many programmers' intuition in cases where nested scope is employed, and the actual functionality of the Python language. This allows for that nested scope intuition to be realized in practice by using the 'nonlocal' keyword. Although other solutions were proposed, such as using a new := operator or using a <function name>.nonlocal style syntax, this solution remained the most elegant and Pythonic in the eyes of the community.
 
 ### Citations
 [1] K. Yee. (2009, January 19). PEP 3104 -- Access to Names in Outer Scopes [Online]. Available: http://www.python.org/dev/peps/pep-3104/
