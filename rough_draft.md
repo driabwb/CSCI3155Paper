@@ -48,7 +48,27 @@ In the discussion thread, there were fewer arguments against the new proposal th
 >at all... [4]
 
 
-Other objections cite that there are not enough non-trivial use cases to warrent a new keyword, especially considering there are already ways to work around the issue by using classes to declare a kind of namespace [4]. But despite the resistance to this proposal, at the end of the day it seemed to be a need that a critical mass of people could not let go of, as summarized by Guido in this quote:
+Other objections cite that there are not enough non-trivial use cases to warrent a new keyword, especially considering there are already ways to work around the issueby using classes to declare a kind of namespace. [4] This word-around is displayed in the following code taken from the PEP proposal site: [1]
+
+~~~~
+class Namespace:
+    pass
+
+def make_scoreboard(frame, score=0):
+    ns = Namespace()
+    ns.score = 0
+    label = Label(frame)
+    label.pack()
+    for i in [-10, -1, 1, 10]:
+        def increment(step=i):
+            ns.score = ns.score + step
+            label['text'] = ns.score
+        button = Button(frame, text='%+d' % i, command=increment)
+        button.pack()
+    return label
+~~~~
+
+But despite the resistance to this proposal, at the end of the day it seemed to be a need that a critical mass of people could not let go of, as summarized by Guido in this quote:
 
 
 >I think the needs are actually pretty simple. Python currently doesn't allow assignment to variables in an outer  
@@ -56,7 +76,13 @@ Other objections cite that there are not enough non-trivial use cases to warrent
 >would have fizzled by now). [5]
 
 
-- [ ] Insert here maybe some rationale about why the current solution is best?
+Once the PEP was actually implemented, there were complaints regarding inability to reassign a value at the time of declaration of the nonlocal variable. A second line or a comma separarting the declaration from the reassignment was needed. For example,
+    nonlocal x += 1
+fails with a syntax error but 
+    nonlocal x; x+1 
+works. 
+
+
 
 ### Conclusion
 
