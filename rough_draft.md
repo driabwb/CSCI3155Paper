@@ -76,16 +76,11 @@ But despite the resistance to this proposal, at the end of the day it seemed to 
 >would have fizzled by now). [5]
 
 
-Once the PEP was actually implemented, there were complaints regarding inability to reassign a value at the time of declaration of the nonlocal variable. A second line or a comma separarting the declaration from the reassignment was needed. For example,
-    nonlocal x += 1
-fails with a syntax error but 
-    nonlocal x; x+1 
-works. 
+Once the PEP was actually implemented, there were complaints regarding inability to reassign a value at the time of declaration of the nonlocal variable. A second line or a comma separarting the declaration from the reassignment was needed. For example,`nonlocal x += 1` fails with a syntax error but `nonlocal x; x+1` works. The first statment is clearer to the reader that it is incremeneting a nonlocal variable. There was some dispute over whether or not this should be corrected. Some argued that it should not, as "nonlocal" should behave the same as "global." However, this just turned out to be a bug that is currently being patched [6]
 
 
 
 ### Conclusion
-
 PEP 3104 was indeed accepted into the Python language for all versions of Python 3. Why did this PEP succeed where others fail? Based on the community feedback, it appears that there was a discrepancy between many programmers' intuition in cases where nested scope is employed, and the actual functionality of the Python language. This allows for that nested scope intuition to be realized in practice by using the 'nonlocal' keyword. Although other solutions were proposed, such as using a new := operator or using a <function name>.nonlocal style syntax, this solution remained the most elegant and Pythonic in the eyes of the community.
 
 ### Citations
@@ -98,3 +93,5 @@ PEP 3104 was indeed accepted into the Python language for all versions of Python
 [4] J. Carlson. (2006, February 21). [Python-Dev] PEP for Better Control of Nested Lexical Scopes [Online]. Available: http://mail.python.org/pipermail/python-dev/2006-February/061577.html
 
 [5] G. van Rossum. (2006, July 5). [Python-Dev] Explicit Lexical Scoping (pre-PEP?) [Online}. Available: http://mail.python.org/pipermail/python-dev/2006-July/066991.html
+
+[6] B. Peterson (2008, October 23). Python Issure 4199 -- add shorthand global and nonlocal statements [Online]. Available: http://bugs.python.org/issue4199
