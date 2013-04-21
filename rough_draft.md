@@ -25,6 +25,8 @@ def make_scoreboard(frame, score=0):
 
 Here, a programmer used to nested lexical scoping would assume the ability to modify the score variable in the nested function. However, Python did not support this functionality until this PEP was implemented in Python 3.
 
+There were two main categories of solutions to this problem, those that suggested new syntax where a name is bound (outer scope), and those that suggested new syntax where the name is used (inner scope) [1]. This PEP eventually went the way of the new syntax in the inner scope, primarily because the first method would cause function definitions to become context sensitive depending on what names are bound in an outer scope.
+
 ### Community reaction
 
 Since PEP 227, there has been talk in the community of addressing the issue of reassigning free variables within a nested scope. As Almann T. Goo writes in the Python-Dev mailing list:
@@ -59,6 +61,8 @@ would have fizzled by now)." [5]
 - [ ] Insert here maybe some rationale about why the current solution is best?
 
 ### Conclusion
+
+PEP 3104 was indeed accepted into the Python language for all versions of Python 3. Why did this PEP succeed where others fail? Based on the community feedback, it appears that there was a discrepancy between many programmers' intuition in cases where nested scope is employed, and the actual functionality of the Python language. This allows for that nested scope intuition to be realized in practice by using the 'nonlocal' keyword. Although other solutions were proposed, such as using a new := operator or using a <function name>.nonlocal style syntax, this solution remained the most elegant and Pythonic in the eyes of the community.
 
 ### Citations
 [1] K. Yee. (2009, January 19). PEP 3104 -- Access to Names in Outer Scopes [Online]. Available: http://www.python.org/dev/peps/pep-3104/
