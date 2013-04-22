@@ -39,7 +39,7 @@ In general, there was agreement that this quirk of the language was problematic,
 
 Almann suggests the keyword "use" in this message quoted above, and in the course of the conversation more are suggested as well, including "outer", "extern", "common", and many others.
 
-In the discussion thread, there were fewer arguments against the new proposal than for it. One lines of the arguments against it seemed to be against nested scoping in general:
+In the discussion thread, there were fewer arguments against the new proposal than for it. Most of the arguments against it were really just arguments against nested scoping in general:
 
 
 >Introducing these two new keywords is equivalent to encouraging nested scope use.  Right now nested scope use  
