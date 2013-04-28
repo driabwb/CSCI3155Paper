@@ -1,1 +1,0 @@
-pandoc -V theme:Warsaw -t beamer talk.md -o my_beamer.pdf
