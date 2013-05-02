@@ -66,7 +66,7 @@ This PEP proposed a new keyword, 'nonlocal', to solve the scoping issue. The key
         return counter1()
 ~~~~
 
-The added functionality was also important to the full implementation of closures in Python. A closures is section of code that has and associated data environment. This data environment is typically a table of references to the free variables (nonlocal) available to the related code [10]. Closures allow for higher-order functions and are required for currying, making them extremely important to functional-style programmers. Although Python has technically supported closures since version 2.2, the addition of the 'nonlocal' keyword makes them explicit. [8] For many, this explicit implementation of closures was the primary motivation in pushing for the development of this PEP. For imperative style programmers, the added functionality was erroneous as closures are not commonly used. 
+The added functionality was also important to the full implementation of closures in Python. A closures is section of code that has and associated data environment. This data environment is typically a table of references to the free variables (nonlocal) available to the related code [10]. Closures allow for higher-order functions and are required for currying, making them extremely important to functional-style programmers. Although Python has technically supported closures since version 2.2, the addition of the 'nonlocal' keyword makes them explicit. [8] For many, this explicit implementation of closures was the primary motivation in pushing for the development of this PEP. For imperative style programmers, the added functionality was extraneous as closures are not commonly used. 
 
 
 
