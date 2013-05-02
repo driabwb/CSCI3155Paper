@@ -4,7 +4,7 @@
 
 ### The Proposal
 
-This paper discusses Python Enhancement Proposal (PEP) 3104, access to names in outer scopes. In Python, one can declare functions within functions which gives the appearance of a nested, lexical scope; however, before this PEP one could not modify variables outside the immediate local scope which defied the intuition of many programmers. For instance, in this code, taken from the PEP proposal site: [1]
+This paper discusses Python Enhancement Proposal (PEP) 3104, access to names in outer scopes. In Python, one can declare functions within functions which gives the syntactic appearance of a nested, lexical scope. Before PEP 3104, one could access variables outside the immediate local scope but not modify them. This lack of functionality was counter-intuitive to programmers accustomed to using nested scopes. The following code, taken from the PEP proposal site, illustrates the problem: [1]
 
 ~~~~~
 def make_scoreboard(frame, score=0):
@@ -19,7 +19,7 @@ def make_scoreboard(frame, score=0):
     return label
 ~~~~~
 
-This was a completely unexpected result for many developers. A programmer used to nested, lexical scoping would assume the ability to modify the score variable in the nested function. Python, however, did not support this functionality until this PEP was implemented in Python 3. Although there are other ways of accessing the outer variables, they are not simple or direct. An example of one such work around is to use a class as a namespace. Below is an example code of the above namespace work-around:
+The error on line 6 was a completely unexpected result for many developers. A programmer accustomed to nested, lexical scoping would assume the ability to modify the score variable in the nested function. Python, however, did not support this functionality until the PEP was implemented in Python 3. Previously, one would have to wrap a variable in a class, namespace, or mutable object to be able to modify it from an inner scope. Below is an example of such a work-around:
 
 ~~~~
 class Namespace:
@@ -39,15 +39,15 @@ def make_scoreboard(frame, score=0):
     return label
 ~~~~
 
-However, because Python touts itself as being easy to read and ituitive, a more elegant solution was needed.
+The extra code required by the example obscures the actual workings of the program to a potential reader. Because Python touts itself as being easy to read and ituitive, a more elegant solution was needed.
 
-This PEP proposes a new keyword, 'nonlocal', to solve the scoping issue. The keyword acts as a override for searching the local scope only, saying that if the variable is not declared in the local scope keep looking to the next enclosing scope. Several other approaches to repair the problem, as well as other keywords, were proposed. The override solution was selected because it provided a clearer meaning and did not have the potential to break existing code. Among the other proposed keywords were global and outer. These two were less favorable because they either already had another meaning, as in the case of global, or were a commonly used variable name, as with outer. Nonlocal, while a little cumbersome, provided a good solution because it is very clear: it says exactly what it is doing. Thus, nonlocal was chosen as the proposed solution [1].
+This PEP proposed a new keyword, 'nonlocal', to solve the scoping issue. The keyword acts as an override for searching the local scope only, allowing the program to look to outerscopes if the variable in question is not locally bound. Several other approaches to repair the problem, as well as other keywords, were proposed. The override solution was selected because it provided a clearer meaning and did not have the potential to break existing code. Among the other proposed keywords were global and outer. 'Global' was rejected to avoid any confusion with its already established usage and outer was rejected because it was a commonly used variable. 'Nonlocal', while somewhat cumbersome, provided a good solution because it clearly and succinctly conveys its purpose. After much debate, nonlocal was chosen as the solution [1].
 
-The added functionality was also important to the full implementation of closures in Python. Closures are generally associated with functional programming as they are basically a referencing environment that allows for higher-order functions. Although Python technically has supprted closures since version 2.2, the addition of the 'nonlocal' keyword makes them explicit. [8] In the debate about this PEP, one gets that impression that imperative style programmers were more indifferent to this PEP, not seeing its value considering that work-arounds already exist, whereas functional style programmers really pushed for it.
+The added functionality was also important to the full implementation of closures in Python. Closures are pieces of code that have associated data environments. This data environment is typically a table of references to the free variables (nonlocal) available to the related code. Closures allow for higher-order functions and are required for currying, making them extremely important to functional-style programmers. Although Python has technically supported closures since version 2.2, the addition of the 'nonlocal' keyword makes them explicit. [8] For many, this explicit implementation of closures was the primary motivation in pushing for the development of this PEP. For imperative style programmers, the added functionality was erroneus as closures are not commonly used. 
 
-There were two main categories of solutions to this problem those that suggested new syntax in the outer scope, similar to the 'var' of JavaScript, and those that suggested new syntax in the inner scope [1]. The outer scope solution would entail a new keyword such as 'var, 'my', or 'scope', which would indicate that this name could be rebound in scopes inside the current one. This PEP eventually went the way of the new syntax in the inner scope, primarily because the first method would cause function definitions to become context sensitive depending on what names are bound in an outer scope. In other words, situations could arise where the exact same line of code could produce different results based on the previous binding and could be a source of confusion.
+There were two main categories of propsed solutions to the problem raised by the PEP definition: new syntax in the outer scope, similar to the 'var' of JavaScript, or new syntax in the inner scope [1]. The outer scope solution would entail a new keyword such as 'var, 'my', or 'scope', which would indicate that this name could be rebound in scopes inside the current one. This PEP eventually went the way of the new syntax in the inner scope, primarily because the first method would cause function definitions to become context sensitive depending on what names are bound in an outer scope. In other words, situations could arise where the exact same line of code could produce different results based on the previous binding and could be a source of confusion.
 
-### Community reaction
+### Community discussion
 
 Since PEP 227, there has been talk in the community of addressing the issue of reassigning free variables within a nested scope. As Almann T. Goo writes in the Python-Dev mailing list:
 
@@ -61,14 +61,14 @@ In general, there was agreement that this quirk of the language was problematic,
 
 Goo suggested the keyword "use" in the message quoted above, and in the course of the conversation many more keywords were suggested including "outer", "extern", "common", and others. There was considerable support for not adding a keyword and simply "abusing" the use of the global keyword whenever the situation arose. [5]
 
-In the discussion thread, there were fewer arguments against the new proposal than for it. Most of the arguments against it were really just arguments against nested scoping in general, citing the lack of need for multiple levels of nested scopes. For example:
+In the discussion threads, there were fewer arguments against the new proposal than for it. Most of the arguments against it were really arguing against nested scoping in general, citing the lack of need for multiple levels of nested scopes. For example:
 
 >Introducing these two new keywords is equivalent to encouraging nested scope use. Right now nested scope use  
 >is "limited" or "fraught with gotchas". Adding the 'use' and 'scope' keywords to label levels of scopes for  
 >name resolution will only encourage users to write closures which could have written better or not written  
 >at all... [4]
 
-Arguments against nested lexical scoping did not really seem to gain traction. Since PEP 227, Python has allowed for statically nested scopes and there was no movement remove such support. [1] Many were quick to point this out in their responses, stating that to Python already allowed nested scopes, so the access to outer variables was necessary for consistency:
+Arguments against nested lexical scoping did not really seem to gain traction. Python has allowed for statically nested scopes since PEP 227 and there was no movement remove such support. [1] Many were quick to point this out in their responses, stating that to Python already allowed nested scopes, so the access to outer variables was necessary for consistency:
 
 >...your argument is more of an argument against PEP 227 than what I am proposing.
 >Again, today's Python already allows a developer to have deep nested scopes. [2]
